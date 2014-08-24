@@ -47,6 +47,7 @@ The estimated out of bag error rate for the final model was 0.76%.
 modelrf$finalModel
 ```
 Measured against the test set, the model accuracy is 99.2%.  The 95% confidence interval for the accuaracy is 0.989 to 0.994.  This model correctly identified all 20 test cases in the pml-testing.csv file.
+
 ```{r}
 predictionrf  <- predict(modelrf, newdata = te_data)
 confusionMatrix(predictionrf,te_data$classe)
