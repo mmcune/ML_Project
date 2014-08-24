@@ -10,10 +10,10 @@ train_raw  <- read.csv('./data/pml-training.csv')
 ```
 
 ### Executive Summary
-I used a random forest model to predict which of 5 exercise types a subject was executing based on the Weight Lifting Exercise dataset from http://groupware.les.inf.puc-rio.br/har.  Each subject was fitted with 5 sensors and conducted a series of exercises.  Various measures of position we recorded during each exercise.  These measures where then used to develop at random forest model to classify the specific exercise that was being performed.  The out-of-bag error estimate for the model was 0.77% and the accuracy against a test set was 99.16 % with a 95% confidence interval of 98.93% to 99.35%.
+I used a random forest model to predict which of 5 exercise types a subject was executing based on the Weight Lifting Exercise dataset from http://groupware.les.inf.puc-rio.br/har.  Each subject was fitted with 4 sensors and conducted a series of exercises.  Various measures of position were recorded during each exercise.  These measures where then used to develop at random forest model to classify the specific exercise that was being performed.  The out-of-bag error estimate for the model was 0.77% and the accuracy against a test set was 99.16 % with a 95% confidence interval of 98.93% to 99.35%.
 
 ### Data Exploration
-The dataset contains 19622 observations of 160 variables and records the motions of the test subjects during the performace of an exercise.  Each subject was fitted with 4 sensors and then performed one of 5 variations of a dumbbell exercise.  There are 38 variables associated with each sensor in the dataset.  These consist of measurements of motion and summary statistics for each set of motions.  Only the variables correcsponding to the basic motions were used in this analysis.  There were measures of roll, pitch, yaw, total acceleration, and 3 each for gyroscope, accelerometer and magnets for each axis (x,y,z) for each sensor.  In addition to these 52 measures, the name of the subject was included to account for individual differences in the performance of each exercise.
+The dataset contains 19622 observations of 160 variables and records the motions of the test subjects during the performace of an exercise.  Each subject was fitted with 4 sensors and then performed one of 5 variations of a dumbbell exercise.  There are 38 variables associated with each sensor in the dataset.  These consist of measurements of motion and summary statistics for each set of motions.  Only the variables corresponding to the basic motions were used in this analysis.  These were measures of roll, pitch, yaw, total acceleration, and 3 each for gyroscope, accelerometer and magnets for each axis (x,y,z) for each sensor.  In addition to these 52 measures, the name of the subject was included in the model to account for individual differences in the performance of each exercise.
 ```{r}
 # determine which measures to use in model
 measures  <- grep('^(roll|pitch|yaw|total_accel|gyros|accel|magnet)_.*$', names(train_raw))
@@ -31,7 +31,7 @@ te_data  <- train_raw[-trainIndex,c(2,measures,160)] # testing set
 
 
 ### Analysis
-The analysis was conducted using the train function from the caret package and the 'rf' model for random forests. In addition to splitting the data into training and test sets, a four-fold crossvalidation was used.
+The analysis was conducted using the train function from the caret package and the 'rf' model for random forests. In addition to splitting the data into training and test sets, a four-fold crossvalidation was used.  Other than the variable selection described above, no preprocessing was done on the data.
 
 ```{r, cache=TRUE}
 trControl = trainControl(method = "cv", number = 4, allowParallel = TRUE,verboseIter = FALSE)
