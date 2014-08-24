@@ -79,10 +79,13 @@ te_data  &lt;- train_raw[-trainIndex,c(2,measures,160)] # testing set</code></pr
 <pre class="r"><code>trControl = trainControl(method = &quot;cv&quot;, number = 4, allowParallel = TRUE,verboseIter = FALSE)
 
 modelrf  &lt;- train(classe ~ ., data=tr_data, method = &quot;rf&quot;, trControl=trControl)</code></pre>
+<pre><code>## Loading required package: randomForest
+## randomForest 4.6-10
+## Type rfNews() to see new features/changes/bug fixes.</code></pre>
 </div>
 <div id="results" class="section level3">
 <h3>Results</h3>
-<p>The estimated error rate for the final model was 0.76%.</p>
+<p>The estimated out of bag error rate for the final model was 0.76%.</p>
 <pre class="r"><code>modelrf$finalModel</code></pre>
 <pre><code>## 
 ## Call:
@@ -99,7 +102,7 @@ modelrf  &lt;- train(classe ~ ., data=tr_data, method = &quot;rf&quot;, trContro
 ## C    0   13 2029   12    0    0.012171
 ## D    0    0   19 1909    2    0.010881
 ## E    0    0    3    7 2155    0.004619</code></pre>
-<p>Measured against the test set, the model was 99.2%.</p>
+<p>Measured against the test set, the model accuracy is 99.2%. The 95% confidence interval for the accuaracy is 0.989 to 0.994. This model correctly identified all 20 test cases in the pml-testing.csv file.</p>
 <pre class="r"><code>predictionrf  &lt;- predict(modelrf, newdata = te_data)
 confusionMatrix(predictionrf,te_data$classe)</code></pre>
 <pre><code>## Confusion Matrix and Statistics
